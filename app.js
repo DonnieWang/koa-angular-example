@@ -13,21 +13,14 @@ var fs = require('fs');
 var mysql = require('mysql');
 
 //var logger = require('koa-logger2')('ip [year-month-day time] "method url protocol/httpVer" status size "referer" "userAgent" duration ms');
-
-//var filters = {
-//    format: function (time) {
-//        return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
-//    }
-//};
-
 var logger = require('koa-log4js');
 
 var dbConfig = {
     connectionLimit : 10,
-    host: "127.0.0.1",
+    host: "192.168.0.12",
     port: 3306,
     user: "root",
-    password: "",
+    password: "123456",
     database: "test"
 };
 

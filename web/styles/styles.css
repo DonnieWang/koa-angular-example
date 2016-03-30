@@ -1,3 +1,35 @@
-body {
-    margin:0px;
+body,html {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#app .top {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 50px;
+}
+
+#app .left {
+    position: absolute;
+    left: 0px;
+    top: 51px;
+    width: 160px;
+    bottom: 0px;
+}
+
+#app .content {
+    position: absolute;
+    left: 161px;
+    top: 51px;
+    right: 0px;
+    bottom: 0px;
 }

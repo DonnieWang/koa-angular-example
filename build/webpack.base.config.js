@@ -13,8 +13,8 @@ module.exports = {
     },
     resolve: {
         root: "../",
-        extensions: ['', '.js', '.css'],
         modulesDirectories: ['node_modules','node_modules/bootstrap/dist/css'],
+        extensions: ['', '.js', '.css'],
         alias: {
             'ngRoute': 'angular-route'
         }
@@ -43,6 +43,10 @@ module.exports = {
             {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
             },
             {
                 test: /\.(png|jpe?g)$/,

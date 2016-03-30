@@ -10,11 +10,11 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var Clean = require('clean-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var config = require('./webpack.base.config')
+var config = require('./webpack.base.config.js')
 
 config.devtool = 'inline-source-map';//'cheap-module-source-map';
 
-config.plugins = (config.plugins || []).concat([
+config.plugins = [
     new Clean(['public'],{
         root: path.join(__dirname, '../'),
         verbose: true
@@ -34,13 +34,13 @@ config.plugins = (config.plugins || []).concat([
             NODE_ENV: '"production"'
         }
     }),
-    //new webpack.optimize.UglifyJsPlugin({
-    //    compress: {
-    //        warnings: false
-    //    }
-    //}),
+    // new webpack.optimize.UglifyJsPlugin({
+    //     compress: {
+    //         warnings: false
+    //     }
+    // }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin()
-])
+];
 
 module.exports = config

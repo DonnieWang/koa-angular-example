@@ -4,19 +4,25 @@
 
 require('../styles/styles.css');
 
-require('bootstrap/less/bootstrap.less');
+require('../styles/modal.scss');
 
-var jquery = require('jquery');
+require('bootstrap/less/bootstrap.less');
 
 var angular = require('angular');
 
 var router = require('angular-ui-router');
 
+var bootstrap = require('angular-ui-bootstrap');
+
+var cookie = require('angular-cookies');
+
+var gettext = require('angular-gettext');
+
 var controllers = require('./controllers');
 
 var services = require('./services');
 
-var app = angular.module('app',[router]);
+var app = angular.module('app',[router,bootstrap,cookie,'gettext']);
 
 controllers(app);
 

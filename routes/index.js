@@ -8,25 +8,9 @@ module.exports = function(app,db) {
 
     app.use(function *(next) {
         var ctx = this;
+        ctx.db = db;
         ctx.form = ctx.request.body;
-        ctx.excuteSQL = function (sql, params) {
-            return function (done) {
-                var start = new Date().getTime();
-                db.getConnection(function (err, connection) {
-                    connection.query(sql, params, function (e, r) {
-                        var duration = new Date().getTime() - start;
-                        console.info(utils.formatData(new Date(),"YYYY-MM-DD HH:mm:ss.SSS"),' duration: ' + duration + ' ms\t SQL: ' + sql + ' params: ' + JSON.stringify(params));
-                        if (e) {
-                            console.error(utils.formatData(new Date(),"YYYY-MM-DD HH:mm:ss"), e);
-                            return done(null, null);
-                        } else {
-                            return done(null, r);
-                        }
-                    });
-                    connection.release();
-                });
-            }
-        };
+        ctx.executeSQL = utils.executeSQL;
 
         try {
             yield next;
@@ -38,15 +22,17 @@ module.exports = function(app,db) {
 
 
     app.use(function *(next) {
-
-        if(!!!this.session.user) {
-            console.log(this.url);
+        //检查安全性
+        if (this.path.match(/\/verify/)){
+            yield next;
+        } else {
+            if(!!!this.session.user) {
+                this.status = 401;
+            } else {
+                yield next;
+            }
         }
-
-        yield next;
     });
-
-
 
 
     var router = Router();
@@ -59,11 +45,30 @@ module.exports = function(app,db) {
     router.all('/',index);
 
 
-    router.use(require('./users').routes());
+
+    function *verify(next) {
+        var loginname = this.query.loginname || this.request.body.loginname || "";
+        var loginpass = this.query.loginpass || this.request.body.loginpass || "";
+        if(!!loginname && !!loginpass) {
+            //TODO 用户登录验证
+
+            //如果验证成功,记入Session
+            this.session.user = {
+                name:loginname,
+                pass:loginpass
+            }
+            this.body = {success:1};
+        } else {
+            this.body = {success:0};
+        }
+    }
+
+    router.all('/api/verify',verify);
 
 
+    router.use(require('./patient').routes());
 
-
+    router.use(require('./doctor').routes());
 
 
     app.use(router.routes());

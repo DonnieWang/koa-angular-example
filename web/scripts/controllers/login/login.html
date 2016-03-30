@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <form class="form-signin">
+        <h2 class="form-signin-heading">用户登录</h2>
+        <input type="text" class="form-control" name="username" placeholder="用户名" required="" autofocus="" ng-model="user.loginname"/>
+        <input type="password" class="form-control" name="password" placeholder="密码" required="" ng-model="user.loginpass"/>
+        <label class="checkbox">
+            <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe" disabled> Remember me
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="doVerify()">登录</button>
+    </form>
+</div>
