@@ -23,7 +23,7 @@ module.exports = function(app,db) {
 
     app.use(function *(next) {
         //检查安全性
-        if (this.path.match(/\/verify/)){
+        if (this.path.match(/\/verify/)||this.path==='/'){
             yield next;
         } else {
             if(!!!this.session.user) {
