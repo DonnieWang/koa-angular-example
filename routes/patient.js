@@ -60,7 +60,7 @@ router.all('/api/patient/get',function* (next) {
 
 router.all('/api/patient/save',function* (next) {
 
-    console.log(this.form);
+    console.log(JSON.stringify(this.request.body));
 
     this.body = {'success':1};
 

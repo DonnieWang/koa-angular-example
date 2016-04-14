@@ -8,4 +8,6 @@ module.exports = function(app) {
 
     require('./patient')(app);
 
+    require('./files')(app);
+
 };

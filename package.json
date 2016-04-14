@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "bundle-loader":"*",
+    "co-fs":"*",
+    "koa-body": "*",
+    "mime":"*",
     "koa": "^1.1.2",
     "koa-compress": "1.0.x",
-    "koa-bodyparser":"*",
     "koa-router": "^5.2.3",
     "koa-static-cache": "*",
     "koa-generic-session": "^1.9.2",

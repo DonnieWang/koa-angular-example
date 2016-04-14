@@ -12,7 +12,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var config = require('./webpack.base.config.js')
 
-config.devtool = 'inline-source-map';//'cheap-module-source-map';
+config.devtool = 'cheap-module-source-map';//'inline-source-map';
 
 config.plugins = [
     new Clean(['public'],{
@@ -34,11 +34,11 @@ config.plugins = [
             NODE_ENV: '"production"'
         }
     }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //     compress: {
-    //         warnings: false
-    //     }
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+        compress: {
+            warnings: false
+        }
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin()
 ];

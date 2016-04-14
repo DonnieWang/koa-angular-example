@@ -64,7 +64,7 @@ function doctorListCtrl($scope,$window,$state,$uibModal,DoctorService) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 template: '<div class="modal-header"><h3 class="modal-title">编辑</h3></div><div class="modal-body">'+html+'</div>',
-                controller: function($scope, $uibModalInstance, DoctorService, doctor){
+                controller: ['$scope','$uibModalInstance','DoctorService','doctor',function($scope, $uibModalInstance, DoctorService, doctor){
                     $scope.doctor = doctor;
                     $scope.doSave = function () {
                         DoctorService.doSaveDoctor($scope.doctor).then(function(r){
@@ -78,7 +78,7 @@ function doctorListCtrl($scope,$window,$state,$uibModal,DoctorService) {
                     $scope.doCancel = function () {
                         $uibModalInstance.dismiss('cancel');
                     };
-                },
+                }],
                 resolve: {
                     doctor: function () {
                         return $scope.doctor

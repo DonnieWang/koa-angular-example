@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 var Router = require('koa-router');
 
 var mysql = require('mysql');
@@ -7,10 +9,13 @@ var utils = require('./utils');
 module.exports = function(app,db) {
 
     app.use(function *(next) {
-        var ctx = this;
-        ctx.db = db;
-        ctx.form = ctx.request.body;
-        ctx.executeSQL = utils.executeSQL;
+
+        this.db = db;
+
+        //无事物处理
+        this.executeSQL = utils.executeSQL;
+        //事务处理
+        this.transactionSQL = utils.transactionSQL;
 
         try {
             yield next;
@@ -23,7 +28,7 @@ module.exports = function(app,db) {
 
     app.use(function *(next) {
         //检查安全性
-        if (this.path.match(/\/verify/)||this.path==='/'){
+        if (this.path.match(/\/verify/)||this.path==="/"){
             yield next;
         } else {
             if(!!!this.session.user) {
@@ -52,6 +57,10 @@ module.exports = function(app,db) {
         if(!!loginname && !!loginpass) {
             //TODO 用户登录验证
 
+            var md5 = crypto.createHash('md5');
+            md5.update(loginpass);
+            loginpass = md5.digest('hex');
+
             //如果验证成功,记入Session
             this.session.user = {
                 name:loginname,
@@ -69,6 +78,8 @@ module.exports = function(app,db) {
     router.use(require('./patient').routes());
 
     router.use(require('./doctor').routes());
+
+    router.use(require('./files').routes());
 
 
     app.use(router.routes());

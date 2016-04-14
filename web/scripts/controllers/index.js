@@ -11,6 +11,8 @@ module.exports = function(app) {
 
     var patient = require('./patient');
 
+    var files = require('./files');
+
     app.config(["$stateProvider","$urlRouterProvider",function($stateProvider, $urlRouterProvider) {
 
         $stateProvider
@@ -24,6 +26,8 @@ module.exports = function(app) {
 
             .state(doctor.list.name,doctor.list.state)
             .state(doctor.edit.name,doctor.edit.state)
+
+            .state(files.name,files.state)
         ;
 
         $urlRouterProvider.otherwise(login.state.url);

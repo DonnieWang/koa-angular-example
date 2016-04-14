@@ -2,7 +2,6 @@ var koa = require('koa');
 var compress = require('koa-compress');
 var render = require('koa-swig');
 var staticCache = require('koa-static-cache');
-var bodyParser = require('koa-bodyparser');
 var session = require('koa-generic-session');
 var mysqlStore = require('koa-mysql-session');
 
@@ -12,8 +11,9 @@ var fs = require('fs');
 
 var mysql = require('mysql');
 
-//var logger = require('koa-logger2')('ip [year-month-day time] "method url protocol/httpVer" status size "referer" "userAgent" duration ms');
 var logger = require('koa-log4js');
+
+var body = require('koa-body');
 
 var dbConfig = {
     connectionLimit : 10,
@@ -39,10 +39,7 @@ app.keys = ["test"];
 
 app.use(compress());
 
-//app.use(logger.gen);
 app.use(logger());
-
-app.use(bodyParser());
 
 app.use(session({
     store: new mysqlStore(dbConfig),
@@ -51,6 +48,8 @@ app.use(session({
         maxage: 1800000
     }
 }));
+
+app.use(body({ multipart: true,formidable:{uploadDir:path.join(__dirname, './upload')} }));
 
 app.use(staticCache(path.join(__dirname, './public'), {
     gzip: true
